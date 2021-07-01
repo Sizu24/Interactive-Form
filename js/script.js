@@ -1,18 +1,23 @@
 const nameField = document.querySelector("#name");
 const jobRoleField = document.getElementById("other-job-role");
 const jobDropDown = document.getElementById("title");
-const optionTag = jobDropDown.getElementsByTagName("OPTION");
-const designDropDown = document.getElementById("shirt-designs");
+const jobOptionTag = jobDropDown.getElementsByTagName("OPTION");
+const designDropDown = document.getElementById("design");
+const designOptionTag = designDropDown.getElementsByTagName("OPTION");
 const shirtColorsDropDown = document.getElementById("shirt-colors");
+const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");
+const dropDownOptions = document.querySelectorAll("#color option");
 
 nameField.focus();
+console.log(designDropDown[1]);
 
 jobRoleField.style.display = "none";
 shirtColorsDropDown.style.display = "none";
+
 jobDropDown.addEventListener("change", ()=>{
-    for(let i = 1; i < optionTag.length; i++){
-        if(optionTag[i].value === "other"){
-            if(optionTag[i].selected === true){
+    for(let i = 1; i < jobOptionTag.length; i++){
+        if(jobOptionTag[i].value === "other"){
+            if(jobOptionTag[i].selected === true){
                 jobRoleField.style.display = "block";
                 console.log("true");
             }else{
@@ -23,4 +28,38 @@ jobDropDown.addEventListener("change", ()=>{
     }    
 });
 
+designDropDown.addEventListener("change", e =>{
+    const targetValue = e.target.value;
+
+    for(let i = 1; i < designDropDown.length; i++){
+        if(designDropDown[i].value === targetValue){
+            if(designDropDown[i].selected === true){
+                shirtColorsDropDown.style.display = "block";
+                console.log("true");
+            }
+        }else if(designDropDown[i].value === "heart js"){
+            if(designDropDown[i].selected === true){
+                shirtColorsDropDown.style.display = "block";
+                console.log("true");
+            }
+        }else{
+            shirtColorsDropDown.style.display = "none";
+        }
+    }    
+});
+
+
+console.log(dropDownOptions);
+
+designDropDown.addEventListener("change", e =>{
+
+for(let i = 0; i < dropDownOptions.length; i++){
+    dropDownOptions[i].style.display = "none";
+    if(dropDownOptions[i].dataset.theme === e.target.value){
+        dropDownOptions[i].style.display = "block";
+    }else{
+        dropDownOptions[i].style.display = "none";
+    }
+}
+});
 
