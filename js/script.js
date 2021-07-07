@@ -63,3 +63,18 @@ for(let i = 0; i < dropDownOptions.length; i++){
 }
 });
 
+const registerActivities = document.querySelector("#activities");
+
+
+let total = 0;
+registerActivities.addEventListener("change", e =>{
+    const allActivities = document.querySelectorAll("#activities input");
+    const activitiesCost = document.querySelector("#activities-cost");
+    if(e.target.checked === true){
+        total += parseInt(e.target.dataset.cost);
+    }else{
+        total -= parseInt(e.target.dataset.cost);
+    }
+    total.toString();
+    activitiesCost.textContent = `Total: $${total}`;
+});
