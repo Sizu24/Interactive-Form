@@ -9,6 +9,9 @@ const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");
 const dropDownOptions = document.querySelectorAll("#color option");
 const submitButton = document.querySelector("form");
 const activities = document.querySelector("#activities-box");
+const creditCardNumber = document.querySelector("#cc-num");
+const zipcode = document.querySelector("#zip");
+const cvv = document.querySelector("#cvv");
 let activitiesTotal = 0;
 
 nameField.focus();
@@ -158,6 +161,7 @@ const validationFail = element =>{
     element.parentElement.lastElementChild.style.display = "block";
 }
 
+// Validators
 const nameValidator = ()=>{
     const nameInputBox = document.querySelector("#name");
         let nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]+ ?$/.test(nameInputBox.value);
@@ -200,19 +204,51 @@ const checkboxValidator = ()=>{
     }
     return isBoxChecked;
 }
+
+    // create const with error message
+    const requiredField = "This field is required";
+    const errorSpan = document.createElement("SPAN");
+    errorSpan.innerHTML = requiredField;
+
+    // select position
+    const charErrorMessage = creditCardNumber.parentElement;
+    charErrorMessage.insertBefore(errorSpan, charErrorMessage.lastElementChild);
+    errorSpan.style.display = "none";
+
+
 const cardNumberValidator = ()=>{
-    const creditCardNumber = document.querySelector("#cc-num");
     const validNumber = /^\d{13,16}\s*$/.test(creditCardNumber.value); 
     console.log(`Card number is ${validNumber}`);
-    if(validNumber === true){
-        validationPass(creditCardNumber);
+
+    if(creditCardNumber.value === ""){
+
+        // add inner html to cc field for last child
+        // add id to span
+        // creditCardNumber.parentElement.lastElementChild.setAttribute("id, errorMessage");
+        errorSpan.style.display = "block";
+        creditCardNumber.parentElement.classList.add("not-valid");
+        creditCardNumber.parentElement.classList.remove("valid");
+        creditCardNumber.parentElement.lastElementChild.style.display = "none";
+        console.log("VALUE 1");
+        return false;
+    }else if(validNumber === true){
+            validationPass(creditCardNumber);
+            errorSpan.style.display = "none";
+            console.log("VALUE 2");
+            return true;
     }else{
-        validationFail(creditCardNumber);
+        validationFail(creditCardNumber);  
+        errorSpan.style.display = "none";    
+        console.log("VALUE 3");
+        return false;
     }
     return validNumber;
 }
+
+creditCardNumber.addEventListener("keyup", ()=>{
+    cardNumberValidator();
+});
 const zipValidator = ()=>{
-    const zipcode = document.querySelector("#zip");
     const validZip = /^\d{5}\s*$/.test(zipcode.value);
     console.log(`Zip code is ${validZip}`);
     if(validZip === true){
@@ -222,8 +258,11 @@ const zipValidator = ()=>{
     }
     return validZip;
 }
+zipcode.addEventListener("keyup", ()=>{
+    zipValidator();
+});
+
 const securityCodeValidator = ()=>{
-    const cvv = document.querySelector("#cvv");
     const validSecurityCode = /^\d{3,4}\s*$/.test(cvv.value);
     console.log(`The security code validator evaluates to be ${validSecurityCode}`);
     if(validSecurityCode === true){
@@ -234,16 +273,30 @@ const securityCodeValidator = ()=>{
     return validSecurityCode;
 }
 
+cvv.addEventListener("keyup", ()=>{
+    securityCodeValidator();
+});
+
 submitButton.addEventListener("submit", e =>{
-    e.preventDefault();
     nameValidator();
     emailValidator();
     checkboxValidator();
     if(paymentDropDown.value === "credit-card"){
-        cardNumberValidator();
+        const nextPage = cardNumberValidator();
         zipValidator();
         securityCodeValidator();
+        if(nextPage === true){
+            console.log("true");
+        }else{
+            console.log("false");
+            e.preventDefault();
+        }
     }
 });
 
+const blankError = "Info in this field is required";
+
+
 // use prevent default if error occurs
+
+
