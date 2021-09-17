@@ -1,12 +1,10 @@
-const nameField = document.querySelector("#name");
 const jobRoleField = document.getElementById("other-job-role");
 const jobDropDown = document.getElementById("title");
 const jobOptionTag = jobDropDown.getElementsByTagName("OPTION");
 const designDropDown = document.getElementById("design");
 const designOptionTag = designDropDown.getElementsByTagName("OPTION");
 const shirtColorsDropDown = document.getElementById("shirt-colors");
-const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");
-const dropDownOptions = document.querySelectorAll("#color option");
+const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");\
 const submitButton = document.querySelector("form");
 const activities = document.querySelector("#activities-box");
 const creditCardNumber = document.querySelector("#cc-num");
@@ -14,63 +12,57 @@ const zipcode = document.querySelector("#zip");
 const cvv = document.querySelector("#cvv");
 let activitiesTotal = 0;
 
-nameField.focus();
-console.log(designDropDown[1]);
+// Focus on Name field when page loads
+document.querySelector("#name").focus();
 
+// Hide input field for "other job" 
 jobRoleField.style.display = "none";
+
+// Hide input field for shirt style
 shirtColorsDropDown.style.display = "none";
 
+/* 
+    Event listener that checks if "other" is selected in job section
+    If "other" is selected, then text field will display for user to input job 
+ */
 jobDropDown.addEventListener("change", ()=>{
     for(let i = 1; i < jobOptionTag.length; i++){
         if(jobOptionTag[i].value === "other"){
             if(jobOptionTag[i].selected === true){
                 jobRoleField.style.display = "block";
-                console.log("true");
             }else{
                 jobRoleField.style.display = "none";
-                console.log("false");
             }
         }
     }    
 });
 
+/*
+    Checks drop down design for shirts.
+    If design selected is "JS Puns", will display only JS Puns designs.
+    If design selected is "I heart JS", will display only I heart JS designs.
+*/
 designDropDown.addEventListener("change", e =>{
-    const targetValue = e.target.value;
-
-    for(let i = 1; i < designDropDown.length; i++){
-        if(designDropDown[i].value === targetValue){
-            if(designDropDown[i].selected === true){
-                shirtColorsDropDown.style.display = "block";
-                console.log("true");
-            }
-        }else if(designDropDown[i].value === "heart js"){
-            if(designDropDown[i].selected === true){
-                shirtColorsDropDown.style.display = "block";
-                console.log("true");
-            }
-        }else{
-            shirtColorsDropDown.style.display = "none";
-        }
-    }    
-});
-
-designDropDown.addEventListener("change", e =>{
-
-for(let i = 0; i < dropDownOptions.length; i++){
-    dropDownOptions[i].style.display = "none";
-    if(dropDownOptions[i].dataset.theme === e.target.value){
-        dropDownOptions[i].style.display = "block";
-    }else{
+    const dropDownOptions = document.querySelectorAll("#color option");
+    // Reset drop down option selection
+    dropDownOptions[0].selected = true;
+    // loop through dropdown options
+    for(let i = 0; i < dropDownOptions.length; i++){
         dropDownOptions[i].style.display = "none";
+        if(dropDownOptions[i].dataset.theme === e.target.value){
+            shirtColorsDropDown.style.display = "block";
+            dropDownOptions[i].style.display = "block";
+        }else{
+            dropDownOptions[i].style.display = "none";
+        }
     }
-}
 });
-
 
 // Focused checkbox highlighted for better accessibility
 const registerActivities = document.querySelector("#activities");
 const checkbox = document.querySelectorAll("#activities input[type='checkbox']");
 
+// loop through checkboxes to see which is focused and add highlight on focused checkbox
 for(let i = 0; i < checkbox.length; i++){
     checkbox[i].onfocus = ()=>{
         checkbox[i].parentNode.classList.add("focus");
@@ -80,6 +72,9 @@ for(let i = 0; i < checkbox.length; i++){
     }
 }
 
+/* 
+    Check to see if activities are selected, and add up the total cost for all selected activities
+*/
 let total = 0;
 registerActivities.addEventListener("change", e =>{
     const activitiesCost = document.querySelector("#activities-cost");
@@ -107,7 +102,7 @@ const bitcoin = document.querySelector("#bitcoin");
 paypal.style.display = "none";
 bitcoin.style.display = "none";
 
-// event listener change on dropdown
+// event listener to see which payment method is selected, and displays only selected method
 paymentDropDown.addEventListener("change", e =>{
     for(let i = 0; i < paymentSelector.length; i++){
         if(e.target.value === "credit-card"){
@@ -126,7 +121,7 @@ paymentDropDown.addEventListener("change", e =>{
     }
 });
 
-// Check if activity checkboxes conflict with schedule times
+// Check if activity checkboxes conflict with schedule times, and disable conflicting fimes
 registerActivities.addEventListener("change", e =>{
 
     for(let i = 0; i < checkbox.length; i++){
@@ -150,6 +145,7 @@ registerActivities.addEventListener("change", e =>{
     }
 });
 
+// Functions to check if validation passes or fails
 const validationPass = element =>{
     element.parentElement.classList.add("valid");
     element.parentElement.classList.remove("not-valid");
@@ -165,7 +161,6 @@ const validationFail = element =>{
 const nameValidator = ()=>{
     const nameInputBox = document.querySelector("#name");
         let nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]+ ?$/.test(nameInputBox.value);
-        console.log(`Name validator evaluates to be ${nameValid}`);
         if(nameValid === true){
             validationPass(nameInputBox);
         }else{
@@ -177,7 +172,6 @@ const nameValidator = ()=>{
 const emailValidator = ()=>{
     const email = document.querySelector("#email");
     const emailIsValid = /^[^@]+@+[^@]+\.(com|net|org)+\s*$/i.test(email.value);
-    console.log(`Email validator evaluates to be ${emailIsValid}`);
     if(emailIsValid === true){
         validationPass(email);
     }else{
@@ -191,12 +185,10 @@ activities.addEventListener("change", e =>{
     }else{
         activitiesTotal--;
     }
-    console.log(activitiesTotal);
 });
 
 const checkboxValidator = ()=>{
     const isBoxChecked = activitiesTotal > 0;
-    console.log(`Box checked evaluates to be ${isBoxChecked}`);
     if(isBoxChecked > 0){
         validationPass(activities);
     }else{
@@ -205,20 +197,24 @@ const checkboxValidator = ()=>{
     return isBoxChecked;
 }
 
-    // create const with error message
-    const requiredField = "This field is required";
-    const errorSpan = document.createElement("SPAN");
-    errorSpan.innerHTML = requiredField;
+// Error messages
+const requiredField = "This field is required";
+const errorSpan = document.createElement("SPAN");
+errorSpan.innerHTML = requiredField;
 
-    // select position
-    const charErrorMessage = creditCardNumber.parentElement;
-    charErrorMessage.insertBefore(errorSpan, charErrorMessage.lastElementChild);
-    errorSpan.style.display = "none";
+// Create display for error message, and hide by default until error is made
+const charErrorMessage = creditCardNumber.parentElement;
+charErrorMessage.insertBefore(errorSpan, charErrorMessage.lastElementChild);
+errorSpan.style.display = "none";
 
+/* 
+    Event listeners to check on keyup if indput data in fields are valid
+*/
 
+// For Credit Card field
 const cardNumberValidator = ()=>{
+    // check if number is between 13-16 digits
     const validNumber = /^\d{13,16}\s*$/.test(creditCardNumber.value); 
-    console.log(`Card number is ${validNumber}`);
 
     if(creditCardNumber.value === ""){
 
@@ -229,12 +225,10 @@ const cardNumberValidator = ()=>{
         creditCardNumber.parentElement.classList.add("not-valid");
         creditCardNumber.parentElement.classList.remove("valid");
         creditCardNumber.parentElement.lastElementChild.style.display = "none";
-        console.log("VALUE 1");
         return false;
     }else if(validNumber === true){
             validationPass(creditCardNumber);
             errorSpan.style.display = "none";
-            console.log("VALUE 2");
             return true;
     }else{
         validationFail(creditCardNumber);  
@@ -248,9 +242,10 @@ const cardNumberValidator = ()=>{
 creditCardNumber.addEventListener("keyup", ()=>{
     cardNumberValidator();
 });
+
+// For zip code field
 const zipValidator = ()=>{
     const validZip = /^\d{5}\s*$/.test(zipcode.value);
-    console.log(`Zip code is ${validZip}`);
     if(validZip === true){
         validationPass(zipcode);
     }else{
@@ -262,9 +257,9 @@ zipcode.addEventListener("keyup", ()=>{
     zipValidator();
 });
 
+// For security code field
 const securityCodeValidator = ()=>{
     const validSecurityCode = /^\d{3,4}\s*$/.test(cvv.value);
-    console.log(`The security code validator evaluates to be ${validSecurityCode}`);
     if(validSecurityCode === true){
         validationPass(cvv);
     }else{
@@ -277,6 +272,12 @@ cvv.addEventListener("keyup", ()=>{
     securityCodeValidator();
 });
 
+
+/*
+    Event listener on submit button runs validators to check if name, email, and checkbox fields are valid
+    Checks to see if credit card is selected, and runs validators for cc related fields
+    Submits if all valid, otherwise shows error message for invalid inputs instead of submitting form
+*/
 submitButton.addEventListener("submit", e =>{
     nameValidator();
     emailValidator();
@@ -285,10 +286,8 @@ submitButton.addEventListener("submit", e =>{
         const nextPage = cardNumberValidator();
         zipValidator();
         securityCodeValidator();
-        if(nextPage === true){
-            console.log("true");
-        }else{
-            console.log("false");
+        if(nextPage !== true){
+            // use prevent default if error occurs
             e.preventDefault();
         }
     }
@@ -297,6 +296,5 @@ submitButton.addEventListener("submit", e =>{
 const blankError = "Info in this field is required";
 
 
-// use prevent default if error occurs
 
 
