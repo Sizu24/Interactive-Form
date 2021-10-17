@@ -296,6 +296,8 @@ submitButton.addEventListener("submit", e =>{
 // Error message for leaving form field blank 
 const blankError = "Info in this field is required";
 
+// Test commit
+
 
 
 
