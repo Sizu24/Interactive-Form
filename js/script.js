@@ -4,7 +4,7 @@ const jobOptionTag = jobDropDown.getElementsByTagName("OPTION");
 const designDropDown = document.getElementById("design");
 const designOptionTag = designDropDown.getElementsByTagName("OPTION");
 const shirtColorsDropDown = document.getElementById("shirt-colors");
-const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");\
+const shirtColorOptionTag = shirtColorsDropDown.getElementsByTagName("OPTION");
 const submitButton = document.querySelector("form");
 const activities = document.querySelector("#activities-box");
 const creditCardNumber = document.querySelector("#cc-num");
@@ -66,10 +66,10 @@ const checkbox = document.querySelectorAll("#activities input[type='checkbox']")
 for(let i = 0; i < checkbox.length; i++){
     checkbox[i].onfocus = ()=>{
         checkbox[i].parentNode.classList.add("focus");
-    }
+    };
     checkbox[i].onblur = ()=>{
         checkbox[i].parentNode.classList.remove("focus");
-    }
+    };
 }
 
 /* 
@@ -81,7 +81,7 @@ registerActivities.addEventListener("change", e =>{
 
     if(e.target.checked === true){
         total += parseInt(e.target.dataset.cost);
-        e.target.checked
+        e.target.checked;
     }else{
         total -= parseInt(e.target.dataset.cost);
     }
@@ -150,12 +150,12 @@ const validationPass = element =>{
     element.parentElement.classList.add("valid");
     element.parentElement.classList.remove("not-valid");
     element.parentElement.lastElementChild.style.display = "none";
-}
+};
 const validationFail = element =>{
     element.parentElement.classList.add("not-valid");
     element.parentElement.classList.remove("valid");
     element.parentElement.lastElementChild.style.display = "block";
-}
+};
 
 // Validators
 const nameValidator = ()=>{
@@ -295,9 +295,6 @@ submitButton.addEventListener("submit", e =>{
 
 // Error message for leaving form field blank 
 const blankError = "Info in this field is required";
-
-// Test commit
-
 
 
 
