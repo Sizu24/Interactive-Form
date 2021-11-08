@@ -279,9 +279,9 @@ cvv.addEventListener("keyup", ()=>{
     Submits if all valid, otherwise shows error message for invalid inputs instead of submitting form
 */
 submitButton.addEventListener("submit", e =>{
-    nameValidator();
-    emailValidator();
-    checkboxValidator();
+    const nameValid = nameValidator();
+    const emailValid = emailValidator();
+    const checkboxValid = checkboxValidator();
     if(paymentDropDown.value === "credit-card"){
         const nextPage = cardNumberValidator();
         zipValidator();
@@ -290,6 +290,9 @@ submitButton.addEventListener("submit", e =>{
             // use prevent default if error occurs
             e.preventDefault();
         }
+    }
+    if(nameValid !== true || emailValid !== true || checkboxValid !== true){
+        e.preventDefault();
     }
 });
 
