@@ -284,9 +284,9 @@ submitButton.addEventListener("submit", e =>{
     const checkboxValid = checkboxValidator();
     if(paymentDropDown.value === "credit-card"){
         const nextPage = cardNumberValidator();
-        zipValidator();
-        securityCodeValidator();
-        if(nextPage !== true){
+        const zipValid = zipValidator();
+        const securityCodeValid = securityCodeValidator();
+        if(nextPage !== true || zipValid !== true|| securityCodeValid !== true){
             // use prevent default if error occurs
             e.preventDefault();
         }
